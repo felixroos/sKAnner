@@ -1,8 +1,9 @@
 import * as readline from "node:readline/promises";
 import { stdin as input, stdout as output } from "node:process";
+import "dotenv/config";
 
-  console.log(
-    `this is the official
+console.log(
+  `this is the official
 
   $$\\                         $$\\                           $$\\                
   $$ |                        $$ |                          $$ |               
@@ -20,8 +21,7 @@ $$$$$$\\    $$$$$$\\   $$$$$$\\  $$ | $$$$$$\\   $$$$$$\\        $$ |  $$\\ $$$$
     |_) (_| | (_ (_) (_| (/_   _> (_ (_| | | | | (/_ |
     
     `
-  );
-
+);
 
 if (!process.env.RECEIVERS) {
   console.log(`no RECEIVERS given! run this script via
