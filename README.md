@@ -39,4 +39,9 @@ RECEIVERS='http://192.168.1.24:4321'
 ## actions
 
 In `receiver.mjs` you can define what a specific code does when it is scanned.
-One typical use is to open an URL via `open(...)` but you could do whatever you want / what is possible with nodejs!
+
+- open: open url in browser
+- dirt: play something with superdirt, e.g. `dirt({ s:"bd", crush: 8 })` (all you can do in tidal with "#").
+  - expects you to run `sclang` with tidal bootfile separately
+- cmd: e.g `cmd("echo hello")`
+- ...anything else you can do with nodejs
