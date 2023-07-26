@@ -43,11 +43,14 @@ Make sure these URLs point to a computer running the receiver.mjs script!
   rl.on("line", (input) => {
     // console.log("received", input);
     servers.forEach((server) => {
-      try {
-        fetch(`${server}?${input}`);
-      } catch (err) {
-        console.log(`error fetching ${server}: ${err.message}`);
-      }
+      const url = `${server}?${input}`;
+      fetch(url)
+        .then(() => {
+          //console.log(`GET sent to "${url}"`);
+        })
+        .catch((err) => {
+          console.log(`error fetching "${url}": ${err.message}`);
+        });
     });
   });
 
