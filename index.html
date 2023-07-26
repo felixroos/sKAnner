@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+  <body>
+    <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.5/dist/JsBarcode.all.min.js"></script>
+
+    <script>
+      function add(code) {
+        const el = document.createElement("canvas");
+        document.body.appendChild(el);
+        JsBarcode(el, code, {
+          format: "EAN8",
+          //lineColor: "#0aa",
+          margin: 20,
+          width: 3,
+          height: 80,
+          //fontSize: 8,
+          displayValue: 1,
+        });
+      }
+      function br() {
+        const el = document.createElement("br");
+        document.body.appendChild(el);
+      }
+      function generateEAN8(number) {
+        // Convert the number to a string and pad it with leading zeros to make it 8 digits
+        const numStr = String(number).padStart(8, "0");
+
+        // Calculate the checksum digit
+        let sum = 0;
+        for (let i = 0; i < 7; i++) {
+          const digit = parseInt(numStr[i]);
+          sum += i % 2 === 0 ? digit : digit * 3;
+        }
+        const checksum = (10 - (sum % 10)) % 10;
+
+        // Concatenate the original number with the checksum digit to form the EAN-8 code
+        const ean8Code = numStr + checksum;
+        return ean8Code;
+      }
+      for (let i = 14; i < 98; ++i) {
+        if (i % 7 === 0) {
+          br();
+        }
+        add("00000" + i);
+      }
+    </script>
+  </body>
+</html>
