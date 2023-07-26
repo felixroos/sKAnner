@@ -29,12 +29,12 @@ RECEIVERS='http://192.168.1.24:4321'
 
 ## setup guide
 
-0. make sure you're running nodejs v18.
-1. run `npm run receiver` on one or multiple machines. If using multiple machines, make sure each has a unique `RECEIVER_PORT` in `.env`
-2. on another machine, connect the barcode scanner and configure `RECEIVERS` to contain all urls of the receivers with the format `http://<IP>:<RECEIVER_PORT>`. Then run `npm run scanner`. keep terminal in focus!
-3. scan a code, watch how it is written into the terminal
-4. the running scanner script detects that and sends a HTTP GET request with `RECEIVER?code` to all RECEIVERS configured in `.env`
-5. each receiver receives the get request and handles it when it's defined in `codes`
+1. make sure you're running nodejs v18, then run `npm i` in the folder where this README is
+2. run `npm run receiver` on one or multiple machines. If using multiple machines, make sure each has a unique `RECEIVER_PORT` in `.env`
+3. on another machine, connect the barcode scanner and configure `RECEIVERS` to contain all urls of the receivers with the format `http://<IP>:<RECEIVER_PORT>`. Then run `npm run scanner`. keep terminal in focus!
+4. scan a code, watch how it is written into the terminal
+5. the running scanner script detects that and sends a HTTP GET request with `RECEIVER?code` to all RECEIVERS configured in `.env`
+6. each receiver receives the get request and handles it when it's defined in `codes`
 
 ## actions
 
