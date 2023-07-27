@@ -3,15 +3,14 @@ import { stdin as input, stdout as output } from "node:process";
 import { WebSocketServer } from "ws";
 import { getIP, port, scannerLogo } from "./util.mjs";
 
-async function init() {
-  scannerLogo();
-  const ip = await getIP();
+scannerLogo();
+const ip = getIP();
 
-  const wss = new WebSocketServer({ port });
+const wss = new WebSocketServer({ port });
 
-  const rl = readline.createInterface({ input, output });
+const rl = readline.createInterface({ input, output });
 
-  console.log(`
+console.log(`
 
 Come on, give me some of these lovely black and white stripes!!!
     
@@ -23,20 +22,17 @@ Make sure to keep this terminal in focus!
 
 `);
 
-  wss.on("connection", function connection(ws) {
-    console.log("client connected.");
-    ws.on("error", console.error);
+wss.on("connection", function connection(ws) {
+  console.log("client connected.");
+  ws.on("error", console.error);
 
-    ws.on("message", function message(data) {
-      console.log("message received: %s", data);
-    });
-
-    // ws.send("hello, I am the server");
-
-    rl.on("line", (input) => {
-      ws.send(input);
-    });
+  ws.on("message", function message(data) {
+    console.log("message received: %s", data);
   });
-}
 
-init();
+  // ws.send("hello, I am the server");
+
+  rl.on("line", (input) => {
+    ws.send(input);
+  });
+});

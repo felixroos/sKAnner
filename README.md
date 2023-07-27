@@ -15,6 +15,20 @@ This means that for the scanner to work, the terminal window has to be in focus,
 
 This is why a separate machine is needed for the scanning and one or more others that receive scanned codes (without needing to focus the terminal).
 
+## setup
+
+```sh
+# 1. install node 18 (skip if already installed)
+# https://github.com/Schniz/fnm
+curl -fsSL https://fnm.vercel.app/install | bash
+# restart shell
+fnm use 18
+# 2. clone repo
+git clone https://github.com/felixroos/sKAnner.git
+cd sKAnner
+# 3. install dependencies
+```
+
 ## How to run
 
 1. connect scanner to machine A
