@@ -1,4 +1,6 @@
 import "dotenv/config";
+import dns from "node:dns";
+import os from "node:os";
 
 export const url = process.env.SCANNER || "localhost:4422";
 export const port = Number(url.split(":").slice(-1)[0] || "4422");
@@ -59,4 +61,10 @@ export function receiverLogo() {
                       
       `
   );
+}
+
+export function getIP() {
+  return new Promise((resolve) => {
+    dns.lookup(os.hostname(), (err, add, fam) => resolve(add));
+  });
 }

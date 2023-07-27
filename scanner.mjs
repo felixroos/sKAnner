@@ -1,9 +1,10 @@
 import * as readline from "node:readline/promises";
 import { stdin as input, stdout as output } from "node:process";
 import { WebSocketServer } from "ws";
-import { port, scannerLogo } from "./util.mjs";
+import { getIP, port, scannerLogo } from "./util.mjs";
 
 scannerLogo();
+const ip = await getIP();
 
 const wss = new WebSocketServer({ port });
 
@@ -13,7 +14,9 @@ console.log(`
 
 Come on, give me some of these lovely black and white stripes!!!
     
-I'll then send them to all clients connecting to me on port ${port}
+On another machine, run:
+
+SCANNER=${ip}:${port} npm run receiver
 
 Make sure to keep this terminal in focus!
 
