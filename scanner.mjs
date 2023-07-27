@@ -22,6 +22,7 @@ Make sure to keep this terminal in focus!
 
 `);
 
+let send;
 wss.on("connection", function connection(ws) {
   console.log("client connected.");
   ws.on("error", console.error);
@@ -30,9 +31,15 @@ wss.on("connection", function connection(ws) {
     console.log("message received: %s", data);
   });
 
-  // ws.send("hello, I am the server");
+  send = (input) => ws.send(input); // send code via web socket
+});
 
-  rl.on("line", (input) => {
-    ws.send(input);
-  });
+rl.on("line", (input) => {
+  // the following stuff makes sure the last log is overwritten
+  process.stdout.moveCursor(0, -2);
+  process.stdout.clearLine(1);
+  process.stdout.moveCursor(0, 1);
+  process.stdout.clearLine(1);
+  process.stdout.write(input);
+  send && send(input);
 });
