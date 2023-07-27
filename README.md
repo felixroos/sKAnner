@@ -2,8 +2,8 @@
 
 this is a little barcode scanner tool for toplap KA. It consists of 2 tasks:
 
-1. scanner.mjs: a node script that receives line inputs, intended for usage with a barcode scanner
-2. receiver.mjs: a node script that opens a server, receiving GET requests from the scanner script
+1. scanner.mjs: a websocket server that sends line inputs from the barcode scanner to all connected clients
+2. receiver.mjs: a node script that connects to the scanner, running actions for scanned codes
 
 There can potentially be multiple machines running scanners and/or receivers.
 
@@ -15,33 +15,21 @@ This means that for the scanner to work, the terminal window has to be in focus,
 
 This is why a separate machine is needed for the scanning and one or more others that receive scanned codes (without needing to focus the terminal).
 
-## .env config
+## How to run
 
-the `.env` file configures:
-
-```sh
-# the port at which
-RECEIVER_PORT=4321
-# adress of receiver server (ran by npm run receiver)
-# replace "192.168.1.24" with your local ip + 4321 with the receiver
-RECEIVERS='http://192.168.1.24:4321'
-```
-
-## setup guide
-
-1. make sure you're running nodejs v18, then run `npm i` in the folder where this README is
-2. run `npm run receiver` on one or multiple machines. If using multiple machines, make sure each has a unique `RECEIVER_PORT` in `.env`
-3. on another machine, connect the barcode scanner and configure `RECEIVERS` to contain all urls of the receivers with the format `http://<IP>:<RECEIVER_PORT>`. Then run `npm run scanner`. keep terminal in focus!
-4. scan a code, watch how it is written into the terminal
-5. the running scanner script detects that and sends a HTTP GET request with `RECEIVER?code` to all RECEIVERS configured in `.env`
-6. each receiver receives the get request and handles it when it's defined in `codes`
+1. connect scanner to machine A
+2. run `npm run scanner` on machine A, keep termin in focus
+3. find out local `ip` adress of machine A
+4. run `SCANNER=<ip>:4422 npm run receiver` on machine B
+5. scan a code!
+6. the code should now appear on all connected machines
 
 ## actions
 
-In `receiver.mjs` you can define what a specific code does when it is scanned.
+In `actions.mjs` you can define what a specific code does when it is scanned.
 
-- open: open url in browser
-- dirt: play something with superdirt, e.g. `dirt({ s:"bd", crush: 8 })` (all you can do in tidal with "#").
+- `open`: open url in browser
+- `dirt`: play something with superdirt, e.g. `dirt({ s:"bd", crush: 8 })` (all you can do in tidal with "#").
   - expects you to run `sclang` with tidal bootfile separately
-- cmd: e.g `cmd("echo hello")`
+- `cmd`: e.g `cmd("echo hello")`
 - ...anything else you can do with nodejs

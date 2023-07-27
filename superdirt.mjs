@@ -17,7 +17,7 @@ export function connect() {
   const osc = new OSC({ plugin: new OSC.DatagramPlugin(options) });
 
   osc.on("open", () => {
-    console.log("osc connected");
+    console.log("superdirt ready");
   });
 
   osc.on("*", (message) => {
@@ -27,7 +27,7 @@ export function connect() {
   osc.open();
   return (controls) => {
     const entries = Object.entries(controls).flat();
-    console.log("entries", entries);
+    console.log("superdirt", entries.join("/"));
     const message = new OSC.Message("/dirt/play", ...entries);
     osc.send(message);
   };

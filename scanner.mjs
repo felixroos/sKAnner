@@ -1,68 +1,35 @@
 import * as readline from "node:readline/promises";
 import { stdin as input, stdout as output } from "node:process";
-import "dotenv/config";
+import { WebSocketServer } from "ws";
+import { port, scannerLogo } from "./util.mjs";
 
-console.log(
-  `this is the official
+scannerLogo();
 
-  $$\\                         $$\\                           $$\\                
-  $$ |                        $$ |                          $$ |               
-$$$$$$\\    $$$$$$\\   $$$$$$\\  $$ | $$$$$$\\   $$$$$$\\        $$ |  $$\\ $$$$$$\\  
-\\_$$  _|  $$  __$$\\ $$  __$$\\ $$ | \\____$$\\ $$  __$$\\       $$ | $$  |\\____$$\\ 
-  $$ |    $$ /  $$ |$$ /  $$ |$$ | $$$$$$$ |$$ /  $$ |      $$$$$$  / $$$$$$$ |
-  $$ |$$\\ $$ |  $$ |$$ |  $$ |$$ |$$  __$$ |$$ |  $$ |      $$  _$$< $$  __$$ |
-  \\$$$$  |\\$$$$$$  |$$$$$$$  |$$ |\\$$$$$$$ |$$$$$$$  |      $$ | \\$$\\\\$$$$$$$ |
-   \\____/  \\______/ $$  ____/ \\__| \\_______|$$  ____/       \\__|  \\__|\\_______|
-                    $$ |                    $$ |                               
-                    $$ |                    $$ |                               
-                    \\__|                    \\__|
-                      
-    |_   _. ._ _  _   _|  _     _  _  _. ._  ._   _  ._ 
-    |_) (_| | (_ (_) (_| (/_   _> (_ (_| | | | | (/_ |
+const wss = new WebSocketServer({ port });
+
+const rl = readline.createInterface({ input, output });
+
+console.log(`
+
+Come on, give me some of these lovely black and white stripes!!!
     
-    `
-);
+I'll then send them to all clients connecting to me on port ${port}
 
-if (!process.env.RECEIVERS) {
-  console.log(`no RECEIVERS given! run this script via
-  
-  RECEIVERS="http://localhost:4321" node scanner.mjs
+Make sure to keep this terminal in focus!
 
-  or
-  
-  RECEIVERS="http://localhost:4321 http://localhost:1234" node scanner.mjs
-  
-for multiple receivers. 
-
-Make sure these URLs point to a computer running the receiver.mjs script!
 `);
-} else {
-  const rl = readline.createInterface({ input, output });
-  let servers = process.env.RECEIVERS.split(" ");
 
-  rl.on("line", (input) => {
-    // console.log("received", input);
-    servers.forEach((server) => {
-      const url = `${server}?${input}`;
-      fetch(url)
-        .then(() => {
-          //console.log(`GET sent to "${url}"`);
-        })
-        .catch((err) => {
-          console.log(`error fetching "${url}": ${err.message}`);
-        });
-    });
+wss.on("connection", function connection(ws) {
+  console.log("client connected.");
+  ws.on("error", console.error);
+
+  ws.on("message", function message(data) {
+    console.log("message received: %s", data);
   });
 
-  console.log(
-    `
-    Come on, give me some of these lovely black and white stripes!!!
-    
-    I'll then send them to "${servers.join("& ")}"
-    
-    ... hopefully someone is listening for GET requests there
-    
-    
-    `
-  );
-}
+  // ws.send("hello, I am the server");
+
+  rl.on("line", (input) => {
+    ws.send(input);
+  });
+});
