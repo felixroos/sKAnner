@@ -18,11 +18,10 @@ This is why a separate machine is needed for the scanning and one or more others
 ## How to run
 
 1. connect scanner to machine A
-2. run `npm run scanner` on machine A, keep termin in focus
-3. find out local `ip` adress of machine A
-4. run `SCANNER=<ip>:4422 npm run receiver` on machine B
-5. scan a code!
-6. the code should now appear on all connected machines
+2. run `npm run scanner` on machine A, keep terminal in focus
+3. it should print a command that you can run on another machine. it looks like `SCANNER=<ip>:4422 npm run receiver`, with the ip of the machine where the scanner is running
+4. scan a code!
+5. the code should now appear on all connected machines
 
 ## actions
 
