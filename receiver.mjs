@@ -1,6 +1,5 @@
 import WebSocket from "ws";
 import { action } from "./actions.mjs";
-import "dotenv/config";
 import { url, receiverLogo } from "./util.mjs";
 
 receiverLogo();

@@ -1,4 +1,3 @@
-import "dotenv/config";
 import dns from "node:dns";
 import os from "node:os";
 
