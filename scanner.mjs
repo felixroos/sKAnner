@@ -23,12 +23,14 @@ Make sure to keep this terminal in focus!
 `);
 
 let clients = [];
-let logClients = () =>
-  console.log(
+let logClients = () => {
+  replaceLineWith(
     `${clients.length} receiver${clients.length !== 1 ? "s" : ""} connected.`
   );
+};
 wss.on("connection", function connection(ws) {
   clients.push(ws);
+  console.log("");
   logClients();
   ws.on("error", console.error);
 
@@ -42,17 +44,21 @@ wss.on("connection", function connection(ws) {
   });
 });
 
+let replaceLineWith = (line) => {
+  process.stdout.moveCursor(0, -2);
+  process.stdout.clearLine(1);
+  process.stdout.moveCursor(0, 1);
+  process.stdout.clearLine(1);
+  process.stdout.write(line);
+};
+
 rl.on("line", (input) => {
   if (input === "exit") {
     console.log("exit code scanned, goodbye!");
     process.exit();
   } else {
     // the following stuff makes sure the last log is overwritten
-    process.stdout.moveCursor(0, -2);
-    process.stdout.clearLine(1);
-    process.stdout.moveCursor(0, 1);
-    process.stdout.clearLine(1);
-    process.stdout.write(input);
+    replaceLineWith(input);
     clients.forEach((ws) => {
       ws.send(input);
     });
