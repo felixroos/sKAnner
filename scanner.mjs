@@ -22,24 +22,30 @@ Make sure to keep this terminal in focus!
 
 `);
 
-let send;
+const clients = [];
 wss.on("connection", function connection(ws) {
   console.log("client connected.");
+  clients.push(ws);
   ws.on("error", console.error);
 
   ws.on("message", function message(data) {
     console.log("message received: %s", data);
   });
-
-  send = (input) => ws.send(input); // send code via web socket
 });
 
 rl.on("line", (input) => {
-  // the following stuff makes sure the last log is overwritten
-  process.stdout.moveCursor(0, -2);
-  process.stdout.clearLine(1);
-  process.stdout.moveCursor(0, 1);
-  process.stdout.clearLine(1);
-  process.stdout.write(input);
-  send && send(input);
+  if (code === "exit") {
+    console.log("exit code scanned, goodbye!");
+    process.exit();
+  } else {
+    // the following stuff makes sure the last log is overwritten
+    process.stdout.moveCursor(0, -2);
+    process.stdout.clearLine(1);
+    process.stdout.moveCursor(0, 1);
+    process.stdout.clearLine(1);
+    process.stdout.write(input);
+    clients.forEach((ws) => {
+      ws.send(input);
+    });
+  }
 });
