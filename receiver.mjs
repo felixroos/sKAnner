@@ -10,10 +10,15 @@ function connect() {
     console.log("---------------------------------------------------");
     console.log("trying to connect to", server);
     const ws = new WebSocket(server);
+    let timeout;
+    const retry = () => {
+      clearTimeout(timeout);
+      timeout = setTimeout(connect, 1000);
+    };
 
     ws.on("error", (err) => {
       console.log(`:( could not connect to scanner...`, err.message);
-      setTimeout(connect, 1000);
+      retry();
     });
 
     ws.on("open", function open() {
@@ -26,11 +31,15 @@ function connect() {
       // console.log(">: %s", code);
       action(code);
     });
+    ws.on("close", () => {
+      console.log("connection closed...");
+      retry();
+    });
   } catch (err) {
     console.error(
       "could not connect to scanner.. is it running? trying again in 1s.."
     );
-    setTimeout(connect, 1000);
+    retry();
   }
 }
 
