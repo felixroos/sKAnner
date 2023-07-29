@@ -22,14 +22,23 @@ Make sure to keep this terminal in focus!
 
 `);
 
-const clients = [];
+let clients = [];
+let logClients = () =>
+  console.log(
+    `${clients.length} receiver${clients.length !== 1 ? "s" : ""} connected.`
+  );
 wss.on("connection", function connection(ws) {
-  console.log("client connected.");
   clients.push(ws);
+  logClients();
   ws.on("error", console.error);
 
   ws.on("message", function message(data) {
     console.log("message received: %s", data);
+  });
+  ws.on("close", () => {
+    clients = clients.filter((c) => c !== ws);
+    console.log("a receiver left...");
+    logClients();
   });
 });
 
