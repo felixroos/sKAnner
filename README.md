@@ -27,6 +27,7 @@ fnm use 18
 git clone https://github.com/felixroos/sKAnner.git
 cd sKAnner
 # 3. install dependencies
+npm i
 ```
 
 ## How to run
