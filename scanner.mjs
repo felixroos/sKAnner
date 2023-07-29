@@ -34,7 +34,7 @@ wss.on("connection", function connection(ws) {
 });
 
 rl.on("line", (input) => {
-  if (code === "exit") {
+  if (input === "exit") {
     console.log("exit code scanned, goodbye!");
     process.exit();
   } else {
