@@ -46,8 +46,8 @@ osascript -e 'tell application "System Events" to keystroke return using control
 
 ```sh
 # in the sKAnner folder
-npm run scanner # in another terminal
-npm run receiver # in one terminal
+npm run scanner # in one terminal
+npm run receiver # in another terminal
 ```
 
 Now, you should be able to load snippets by typing the barcode into the terminal where `npm run scanner` runs:
