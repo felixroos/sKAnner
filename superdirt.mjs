@@ -32,3 +32,26 @@ export function connect() {
     osc.send(message);
   };
 }
+
+/*
+
+// custom code matchers
+if (code.length === 8 && code.startsWith("00000")) {
+  const n = Number(code.slice(-3, -1));
+  const note = ((n * 7) % 36) - 24;
+  dirt({ s: "supermandolin", note });
+  return;
+}
+*/
+
+/* if (code.startsWith("s-")) {
+  let chunks = code.split("-");
+  let v = {};
+  while (chunks.length) {
+    v[chunks[0]] = chunks[1];
+    chunks = chunks.slice(2);
+  }
+  dirt(v);
+  //console.log(v);
+  return;
+} */

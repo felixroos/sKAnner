@@ -1,9 +1,9 @@
 import openURL from "open"; // helper to open a url in the default browser
 import { exec } from "node:child_process";
-import { connect } from "./superdirt.mjs";
+// import { connect } from "./superdirt.mjs";
 
 // helper to send messages to superdirt (expects sclang to run with tidal config)
-const dirt = connect();
+// const dirt = connect();
 // helper to run a terminal command
 const cmd = (command) => {
   exec(command, (error, stdout, stderr) => {
@@ -57,6 +57,7 @@ const open = async (url) => {
 };
 
 const actions = {
+  killall: () => killall(),
   // st actions will only work if SuperCollder is in PATH!
   sc1: () => sc(1),
   sc2: () => sc(2),
@@ -92,35 +93,16 @@ const actions = {
   hd2: () => open("https://hydra.ojack.xyz/?sketch_id=ExeOTZVE9hrn6IIW"),
   hd3: () => open("https://hydra.ojack.xyz/?sketch_id=vcWMV3vi1ykmd9U1"),
   hd4: () => open("https://hydra.ojack.xyz/?sketch_id=rhKdR4tUnVqL9gzX"),
-  191924481409: () => dirt({ s: "bd" }),
-  496958: () => dirt({ s: "sd" }),
 };
 
-export const action = (code) => {
+let pending = null;
+export const action = async (code) => {
   console.log("beep", code);
-  // custom code matchers
-  if (code.length === 8 && code.startsWith("00000")) {
-    const n = Number(code.slice(-3, -1));
-    const note = ((n * 7) % 36) - 24;
-    dirt({ s: "supermandolin", note });
-    return;
+  if (pending) {
+    console.log(`waiting for code "${code}" to finish...`);
+    await pending;
+    console.log(`code "${code}" finished!`);
   }
-  if (code.startsWith("s-")) {
-    let chunks = code.split("-");
-    let v = {};
-    while (chunks.length) {
-      v[chunks[0]] = chunks[1];
-      chunks = chunks.slice(2);
-    }
-    dirt(v);
-    //console.log(v);
-    return;
-  }
-  if (!code) {
-    console.log("request without code.. am I a joke to you?");
-    return;
-  }
-
   // actions
   const action = actions[code];
   if (!action) {
@@ -130,5 +112,5 @@ export const action = (code) => {
     return;
   }
   console.log(`running code "${code}"`);
-  action();
+  pending = action();
 };
