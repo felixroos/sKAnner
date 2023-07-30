@@ -42,6 +42,22 @@ osascript -e 'tell application "System Events" to keystroke return using control
 
 ... which should open a prompt
 
+### verify that it works
+
+```sh
+# in the sKAnner folder
+npm run scanner # in another terminal
+npm run receiver # in one terminal
+```
+
+Now, you should be able to load snippets by typing the barcode into the terminal where `npm run scanner` runs:
+
+- sc: type `sc2` and hit enter. This should open SuperCollider with sc2.sc and evaluate after 5s
+- hd: type `hd1` and hit enter. This should open Chrome and load the hydra sketch
+- st: type `st1` and hit enter. This should open Chrome and run the Strudel snippet.
+
+All good?!?!
+
 ## How to run
 
 1. connect scanner to machine A
