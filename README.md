@@ -30,6 +30,18 @@ cd sKAnner
 npm i
 ```
 
+What the System needs:
+
+- 1. Google Chrome needs to be the default Browser
+- 2. make sure to set SuperCollider Shortcut "Evaluate File" to ctrl+enter
+- 3. Terminal needs the rights to control keyboard input. run this:
+
+```sh
+osascript -e 'tell application "System Events" to keystroke return using control down'
+```
+
+... which should open a prompt
+
 ## How to run
 
 1. connect scanner to machine A
