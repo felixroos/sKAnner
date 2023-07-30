@@ -20,11 +20,12 @@ const cmd = (command) => {
 };
 
 // prequisite:
-// Google Chrome needs to be the default Browser
-// Visual Studio Code needs the rights to control keyboard input
+// 1. Google Chrome needs to be the default Browser
+// 2. Visual Studio Code needs the rights to control keyboard input
 // just enter
 // osascript -e 'tell application "System Events" to keystroke return using control down'
 // into the vscode terminal and you should get a prompt...
+// 3. make sure to set SuperCollider Shortcut "Evaluate File" to ctrl+enter
 
 const ctrlEnter = () => {
   cmd(
